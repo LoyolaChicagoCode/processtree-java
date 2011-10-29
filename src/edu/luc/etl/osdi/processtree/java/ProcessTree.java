@@ -16,7 +16,7 @@ public class ProcessTree {
 
 	private final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 	private final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out), IO_BUF_SIZE );
-	private final Map<Integer, Process> pMap = new HashMap<Integer, Process>();
+	private final Map<Integer, String> pMap = new HashMap<Integer, String>();
 	private final Map<Integer, List<Integer>> tMap = new HashMap<Integer, List<Integer>>();
 
 	public static void main(String[] args) throws Throwable { new ProcessTree().run(); }
@@ -28,7 +28,7 @@ public class ProcessTree {
 		String line = null;
 		while ((line = in.readLine()) != null) {
 			final Process p = parser.parseString(line);
-			pMap.put(p.pid, p);
+			pMap.put(p.pid, p.cmd);
 			if (! tMap.containsKey(p.ppid))
 				tMap.put(p.ppid, new ArrayList<Integer>(CHILD_LIST_SIZE));
 			tMap.get(p.ppid).add(p.pid);
@@ -50,7 +50,7 @@ public class ProcessTree {
 			out.append(' ');
 		out.append(String.valueOf(pid));
 		out.append(": ");
-		out.append(pMap.get(pid).cmd);
+		out.append(pMap.get(pid));
 		out.newLine();
 		if (tMap.containsKey(pid))
 			printTrees(level, pid);
