@@ -22,6 +22,7 @@ public class ProcessTree {
 	public static void main(String[] args) throws Throwable { new ProcessTree().run(); }
 
 	public void run() throws Throwable {
+		final long start = System.currentTimeMillis();
 		final Process.Parser parser = Process.createParser(in.readLine());
 
 		String line = null;
@@ -35,6 +36,8 @@ public class ProcessTree {
 
 		printTrees(0, 0);
 		out.flush();
+
+		System.out.println(System.currentTimeMillis() - start + " ms");
 	}
 
 	protected void printTrees(int level, int ppid) throws Throwable {
